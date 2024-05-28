@@ -283,5 +283,6 @@ public class TextToDirectedGraph {
         } catch (IOException e) {
             System.err.println("写入文件时出错: " + e.getMessage());
         }
+        System.err.println("lastChange");
     }
 }
