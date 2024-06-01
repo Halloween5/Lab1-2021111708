@@ -258,31 +258,39 @@ public class TextToDirectedGraph {
             Random random = new Random();
             List<String> vertices = new ArrayList<>(directedGraph.keySet());
             String current = vertices.get(random.nextInt(vertices.size()));
-
-            Set<String> visited = new HashSet<>();
-            visited.add(current); // 定义访问过的节点集合，加入当前一个随机节点
+            Set<String> visitedEdges = new HashSet<>();
             while (true) {
+                System.out.println("是否中途停止？");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                String option = reader.readLine().trim();
+                if(option.equals("1")){
+                    System.out.println("遍历已停止。");
+                    break;
+                }
+                System.out.println(current);
                 writer.write(current + " ");
-                visited.add(current);
                 Map<String, Integer> neighbors = directedGraph.get(current);
                 if (neighbors == null || neighbors.isEmpty()) {
                     break;
                 }
                 List<String> availableNeighbors = new ArrayList<>();
                 for (Map.Entry<String, Integer> neighbor : neighbors.entrySet()) {
-                    String neighborVertex = neighbor.getKey(); // 向前寻路
-                    if (!visited.contains(neighborVertex)) {
+                    String neighborVertex = neighbor.getKey();
+                    String edge = current + "->" + neighborVertex;
+                    if (!visitedEdges.contains(edge)) {
                         availableNeighbors.add(neighborVertex);
                     }
                 }
                 if (availableNeighbors.isEmpty()) {
                     break;
                 }
-                current = availableNeighbors.get(random.nextInt(availableNeighbors.size()));
+                String next = availableNeighbors.get(random.nextInt(availableNeighbors.size()));
+                String edge = current + "->" + next;
+                visitedEdges.add(edge);
+                current = next;
             }
         } catch (IOException e) {
             System.err.println("写入文件时出错: " + e.getMessage());
         }
-        System.err.println("lastChange");
     }
 }
