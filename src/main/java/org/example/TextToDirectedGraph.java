@@ -189,6 +189,7 @@ public class TextToDirectedGraph {
             distances.put(vertex, Integer.MAX_VALUE);
             previous.put(vertex, null);
         }
+        
         distances.put(word1, 0);
         queue.add(word1);
         while (!queue.isEmpty()) {
