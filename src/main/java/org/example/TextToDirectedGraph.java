@@ -38,7 +38,7 @@ public class TextToDirectedGraph {
                     String word1 = reader.readLine().trim();
                     System.out.print("请输入word2: ");
                     String word2 = reader.readLine().trim();
-                    queryBridgeWords(word1, word2);
+                    //queryBridgeWords(word1, word2);
                     break;
                 case "2":
                     System.out.print("请输入新文本: ");
@@ -119,8 +119,8 @@ public class TextToDirectedGraph {
         return dotFormat.toString();
     }
 
-    public static void queryBridgeWords(String word1, String word2) {
-        Set<String> bridgeWords = findBridgeWords(word1, word2);
+    public static void queryBridgeWords(String word1, String word2,Map<String, Map<String, Integer>>directedGraph1 ) {
+        Set<String> bridgeWords = findBridgeWords(word1, word2,directedGraph1);
         if (bridgeWords.isEmpty()) {
             System.out.println("No bridge words from " + word1 + " to " + word2 + "!");
         } else {
@@ -138,16 +138,16 @@ public class TextToDirectedGraph {
         }
     }
 
-    public static Set<String> findBridgeWords(String word1, String word2) {
+    public static Set<String> findBridgeWords(String word1, String word2,Map<String, Map<String, Integer>>directedGraph1) {
         Set<String> bridgeWords = new HashSet<>();
-        if (!directedGraph.containsKey(word1) || !directedGraph.containsKey(word2)) {
+        if (!directedGraph1.containsKey(word1) || !directedGraph1.containsKey(word2)) {
             // 返回空集合
             return bridgeWords;
         }
-        Map<String, Integer> neighborsOfWord1 = directedGraph.get(word1);
+        Map<String, Integer> neighborsOfWord1 = directedGraph1.get(word1);
         for (Map.Entry<String, Integer> entry : neighborsOfWord1.entrySet()) {
             String bridgeWord = entry.getKey(); // 取映射以word1为键值中的value值中的键值做桥接词
-            if (directedGraph.containsKey(bridgeWord) && directedGraph.get(bridgeWord).containsKey(word2)) { // 如果该词在图中也存在到word2的出边，则将该词加入桥接词集合
+            if (directedGraph1.containsKey(bridgeWord) && directedGraph1.get(bridgeWord).containsKey(word2)) { // 如果该词在图中也存在到word2的出边，则将该词加入桥接词集合
                 bridgeWords.add(bridgeWord);
             }
         }
@@ -163,7 +163,7 @@ public class TextToDirectedGraph {
             String word2 = words[i + 1];
             result.append(word1).append(" "); // 把前面的文本先加入结果字符串
             if (directedGraph.containsKey(word1) && directedGraph.containsKey(word2)) { // 检查新文本中相邻的词是否存在于图中
-                Set<String> bridgeWords = findBridgeWords(word1, word2);
+                 Set<String> bridgeWords = findBridgeWords(word1, word2,directedGraph);
                 if (!bridgeWords.isEmpty()) {
                     // 选择一个随机的桥接词插入到两个单词之间
                     List<String> bridgeWordsList = new ArrayList<>(bridgeWords);
