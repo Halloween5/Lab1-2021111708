@@ -50,7 +50,7 @@ public class TextToDirectedGraph {
                     word1 = reader.readLine().trim();
                     System.out.print("请输入word2: ");
                     word2 = reader.readLine().trim();
-                    calcShortestPath(word1, word2);
+                    calcShortestPath(word1, word2, directedGraph);
                     break;
                 case "4":
                     String randomTraversalFile = "random_traversal.txt";
@@ -138,7 +138,7 @@ public class TextToDirectedGraph {
         }
     }
 
-    public static Set<String> findBridgeWords(String word1, String word2,Map<String, Map<String, Integer>>directedGraph1) {
+    public static Set<String> findBridgeWords(String word1, String word2, Map<String, Map<String, Integer>>directedGraph1) {
         Set<String> bridgeWords = new HashSet<>();
         if (!directedGraph1.containsKey(word1) || !directedGraph1.containsKey(word2)) {
             // 返回空集合
@@ -176,8 +176,8 @@ public class TextToDirectedGraph {
         System.out.println("生成的新文本为: " + result.toString());
     }
 
-    public static void calcShortestPath(String word1, String word2) {
-        if (!directedGraph.containsKey(word1) || !directedGraph.containsKey(word2)) {
+    public static void calcShortestPath(String word1, String word2, Map<String, Map<String, Integer>>directedGraph1) {
+        if (!directedGraph1.containsKey(word1) || !directedGraph1.containsKey(word2)) {
             System.out.println("图中没有这个单词！");
             return;
         }
@@ -185,7 +185,7 @@ public class TextToDirectedGraph {
         Map<String, String> previous = new HashMap<>(); // 存储最短路径
         PriorityQueue<String> queue = new PriorityQueue<>(Comparator.comparingInt(distances::get));
 
-        for (String vertex : directedGraph.keySet()) {
+        for (String vertex : directedGraph1.keySet()) {
             distances.put(vertex, Integer.MAX_VALUE);
             previous.put(vertex, null);
         }
@@ -202,7 +202,7 @@ public class TextToDirectedGraph {
             if (distance == null || distance == Integer.MAX_VALUE) {
                 continue;
             }
-            Map<String, Integer> neighbors = directedGraph.get(current); // 找这个节点的邻居
+            Map<String, Integer> neighbors = directedGraph1.get(current); // 找这个节点的邻居
             for (Map.Entry<String, Integer> neighbor : neighbors.entrySet()) {
                 String neighborVertex = neighbor.getKey();
                 int alternate = distances.get(current) + neighbor.getValue();

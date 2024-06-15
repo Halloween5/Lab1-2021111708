@@ -1,6 +1,9 @@
 digraph G {
 worda -> wordb [label="1"];
+worda -> wordd [label="1"];
 wordc -> wordd [label="1"];
 wordb -> wordc [label="1"];
+worde -> worda [label="1"];
+wordd -> wordc [label="1"];
 wordd -> worde [label="1"];
 }
