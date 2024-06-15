@@ -38,7 +38,7 @@ public class TextToDirectedGraph {
                     String word1 = reader.readLine().trim();
                     System.out.print("请输入word2: ");
                     String word2 = reader.readLine().trim();
-                    //queryBridgeWords(word1, word2);
+                    queryBridgeWords(word1, word2, directedGraph);
                     break;
                 case "2":
                     System.out.print("请输入新文本: ");
